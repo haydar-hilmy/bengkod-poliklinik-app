@@ -30,6 +30,21 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('polis.index') }}" class="nav-link {{ request()->routeIs('polis.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Manajemen Polis
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dokter.index') }}"
+                        class="nav-link {{ request()->routeIs('dokter.*') ? 'active': '' }}">
+                                <i class="nav-icon fas fa-user-md"></i>
+                            <p>Manajemen Dokter</p>
+                        </a>
+                    </li>
                 @endif
 
                 <!-- ROLE PASIEN -->

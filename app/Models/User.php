@@ -22,9 +22,11 @@ class User extends Authenticatable
         'alamat',
         'no_ktp',
         'no_hp',
+        'no_rm',
+        'id_poli',
+        'role',
         'email',
         'password',
-        'role',
 ]   ;
 
     /**

@@ -48,6 +48,9 @@
                                                 <i class="fas fa-trash"></i> Hapus
                                             </button>
                                         </form>
+                                        <a href="{{ route('obat.detail', $obat->id) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-info-circle"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @empty

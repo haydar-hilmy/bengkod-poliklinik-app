@@ -94,6 +94,22 @@
                             <p>Jadwal Periksa</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('periksa-pasien.index') }}"
+                        class="nav-link {{ request()->routeIs('periksa-pasien.*') ? 'active': ''}}">
+                            <i class="nav-icon fas fa-stethoscope"></i>
+                                <p>
+                                Periksa Pasien
+                                </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dokter.riwayat-pasien.index') }}"
+                        class="nav-link {{ request()->routeIs('dokter.riwayat-pasien.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>Riwayat Pasien</p>
+                        </a>
+                    </li>
                 @endif
 
                 <li class="nav-item ">

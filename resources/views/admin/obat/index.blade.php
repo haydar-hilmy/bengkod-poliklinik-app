@@ -25,6 +25,7 @@
                                 <th>Nama Obat</th>
                                 <th>Kemasan</th>
                                 <th>Harga</th>
+                                <th>Stok</th>
                                 <th style="width: 150px;">Aksi</th>
                             </tr>
                         </thead>
@@ -36,6 +37,15 @@
                                     <td>{{ $obat->kemasan }}</td>
                                     <td>{{ 'Rp ' . number_format($obat->harga, 0, ',', '.') }}</td>
                                     <td>
+                                        @if ($obat->stok == 0)
+                                            <span class="badge bg-danger">Habis</span>
+                                        @elseif ($obat->stok <= 5)
+                                            <span class="badge bg-warning text-dark">Menipis ({{ $obat->stok }})</span>
+                                        @else
+                                            <span class="badge bg-success">{{ $obat->stok }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <a href="{{ route('obat.edit', $obat->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>Edit
                                         </a>
@@ -46,6 +56,9 @@
                                                 <i class="fas fa-trash"></i> Hapus
                                             </button>
                                         </form>
+                                        <a href="{{ route('obat.detail', $obat->id) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-info-circle"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @empty

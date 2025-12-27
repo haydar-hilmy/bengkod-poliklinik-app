@@ -28,7 +28,7 @@ class PeriksaPasienController extends Controller
 
     public function create($id)
     {
-        $obats = Obat::all();
+        $obats = Obat::select('id', 'nama_obat', 'harga', 'stok')->get();
         return view('dokter.periksa-pasien.create', compact('obats', 'id'));
     }
 
@@ -40,21 +40,41 @@ class PeriksaPasienController extends Controller
             'biaya_periksa' => 'required|integer',
         ]);
 
-        $obatIds = json_decode($request->obat_json, true);
+        $obatData = json_decode($request->obat_json, true);
+
+        $totalHargaObat = 0;
+
+        foreach ($obatData as $item) {
+            $obat = Obat::findOrFail($item['id']);
+
+            if ($obat->stok < $item['jumlah']) {
+                return back()->with('message', "Stok obat {$obat->nama_obat} tidak mencukupi!")
+                    ->with('type', 'danger');
+            }
+
+            $totalHargaObat += ($obat->harga * $item['jumlah']);
+        }
 
         $periksa = Periksa::create([
             'id_daftar_poli' => $request->id_daftar_poli,
             'tgl_periksa' => now(),
             'catatan' => $request->catatan,
-            'biaya_periksa' => $request->biaya_periksa + 150000,
+            'biaya_periksa' => $totalHargaObat + 150000,
         ]);
 
-        foreach ($obatIds as $idobat) {
+        foreach ($obatData as $item) {
+            $obat = Obat::findOrFail($item['id']);
+
             DetailPeriksa::create([
                 'id_periksa' => $periksa->id,
-                'id_obat' => $idobat,
+                'id_obat' => $item['id'],
+                'jumlah' => $item['jumlah'],
             ]);
+
+            $obat->stok -= $item['jumlah'];
+            $obat->save();
         }
+
 
         return redirect()->route('periksa-pasien.index')->with('success', 'Data periksa berhasil disimpan.');
     }
